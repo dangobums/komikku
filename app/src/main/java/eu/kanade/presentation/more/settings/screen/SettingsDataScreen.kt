@@ -780,6 +780,41 @@ object SettingsDataScreen : SearchableSettings {
                     },
                 )
             },
+            // dangobums -->
+            Preference.PreferenceItem.EditTextPreference(
+                preference = syncPreferences.syncBasicAuthUsername(),
+                title = stringResource(KMR.strings.pref_sync_basic_auth_username),
+                subtitle = stringResource(KMR.strings.pref_sync_basic_auth_username_summ),
+                onValueChanged = { newValue ->
+                    scope.launch {
+                        syncPreferences.syncBasicAuthUsername().set(newValue.trim())
+                    }
+                    true
+                },
+            ),
+            run {
+                var dialogOpen by remember { mutableStateOf(false) }
+                if (dialogOpen) {
+                    PasswordDialog(
+                        onDismissRequest = { dialogOpen = false },
+                        onReturnPassword = { password ->
+                            dialogOpen = false
+                            scope.launch {
+                                syncPreferences.syncBasicAuthPassword().set(password.replace("\n", ""))
+                            }
+                        },
+                        title = KMR.strings.pref_sync_basic_auth_password,
+                    )
+                }
+                Preference.PreferenceItem.TextPreference(
+                    title = stringResource(KMR.strings.pref_sync_basic_auth_password),
+                    subtitle = stringResource(KMR.strings.pref_sync_basic_auth_password_summ),
+                    onClick = {
+                        dialogOpen = true
+                    },
+                )
+            },
+            // dangobums <--
         )
     }
 

@@ -18,6 +18,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.protobuf.ProtoBuf
 import logcat.LogPriority
 import logcat.logcat
+import okhttp3.Credentials
 import okhttp3.Headers
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -44,6 +45,28 @@ class SyncYomiSyncService(
     // KMK <--
 
     private class SyncYomiException(message: String?) : Exception(message)
+
+    // dangobums -->
+    /**
+     * Builds the common request headers, always including the API token and, if a
+     * basic-auth username has been configured, an `Authorization: Basic` header too.
+     *
+     * This lets SyncYomi requests pass through a reverse proxy/SSO gateway (e.g. Pangolin)
+     * that sits in front of the self-hosted sync server and requires HTTP Basic Auth.
+     */
+    private fun buildAuthHeaders(): Headers.Builder {
+        val apiKey = syncPreferences.clientAPIKey().get()
+        val builder = Headers.Builder().add("X-API-Token", apiKey)
+
+        val username = syncPreferences.syncBasicAuthUsername().get()
+        if (username.isNotBlank()) {
+            val password = syncPreferences.syncBasicAuthPassword().get()
+            builder.add("Authorization", Credentials.basic(username, password))
+        }
+
+        return builder
+    }
+    // dangobums <--
 
     @Serializable
     private data class SyncEvent(
@@ -108,10 +131,9 @@ class SyncYomiSyncService(
 
     private suspend fun pullSyncData(): Pair<SyncData?, String> {
         val host = syncPreferences.clientHost().get()
-        val apiKey = syncPreferences.clientAPIKey().get()
         val downloadUrl = "$host/api/sync/content"
 
-        val headersBuilder = Headers.Builder().add("X-API-Token", apiKey)
+        val headersBuilder = buildAuthHeaders()
         val lastETag = syncPreferences.lastSyncEtag().get()
         if (lastETag != "") {
             headersBuilder.add("If-None-Match", lastETag)
@@ -171,10 +193,9 @@ class SyncYomiSyncService(
         val backup = syncData.backup ?: return true
 
         val host = syncPreferences.clientHost().get()
-        val apiKey = syncPreferences.clientAPIKey().get()
         val uploadUrl = "$host/api/sync/content"
 
-        val headersBuilder = Headers.Builder().add("X-API-Token", apiKey)
+        val headersBuilder = buildAuthHeaders()
         if (eTag.isNotEmpty()) {
             headersBuilder.add("If-Match", eTag)
         }
@@ -219,11 +240,9 @@ class SyncYomiSyncService(
         withContext(NonCancellable) {
             try {
                 val host = syncPreferences.clientHost().get()
-                val apiKey = syncPreferences.clientAPIKey().get()
                 val url = "$host/api/sync/event"
 
-                val headersBuilder = Headers.Builder().add("X-API-Token", apiKey)
-                val headers = headersBuilder.build()
+                val headers = buildAuthHeaders().build()
 
                 val bodyObj = SyncEvent(
                     event = event,

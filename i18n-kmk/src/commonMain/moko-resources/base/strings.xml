@@ -129,6 +129,10 @@
     <string name="pref_webdav_password_summ">Enter your WebDAV account password</string>
     <string name="pref_webdav_folder">WebDAV data folder</string>
     <string name="pref_webdav_folder_summ">The application will store the data in this folder</string>
+    <string name="pref_sync_basic_auth_username">Basic auth username</string>
+    <string name="pref_sync_basic_auth_username_summ">Optional. Fill in if your sync server sits behind a reverse proxy/SSO gateway (e.g. Pangolin) requiring HTTP Basic Auth</string>
+    <string name="pref_sync_basic_auth_password">Basic auth password</string>
+    <string name="pref_sync_basic_auth_password_summ">Optional. Password for the basic auth username above</string>
     <!-- Advanced section -->
     <string name="pref_clean_invalid_downloads">Clean invalid downloads</string>
     <string name="pref_clean_invalid_downloads_summary">Find and remove all downloads, files, folders which are not saved in your library</string>
