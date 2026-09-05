@@ -561,7 +561,10 @@ object SettingsDataScreen : SearchableSettings {
                         entries = persistentMapOf(
                             SyncManager.SyncService.NONE.value to stringResource(MR.strings.off),
                             SyncManager.SyncService.SYNCYOMI.value to stringResource(SYMR.strings.syncyomi),
-                            SyncManager.SyncService.GOOGLE_DRIVE.value to stringResource(SYMR.strings.google_drive),
+                            // dangobums -->
+                            // Hidden until client_secrets.json (Google Cloud OAuth) is set up again, see build_release.yml
+                            // SyncManager.SyncService.GOOGLE_DRIVE.value to stringResource(SYMR.strings.google_drive),
+                            // dangobums <--
                             // KMK -->
                             SyncManager.SyncService.WEB_DAV.value to stringResource(KMR.strings.web_dav),
                             // KMK <--
