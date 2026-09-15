@@ -10,4 +10,14 @@ data class KitsuCurrentUserResult(
 @Serializable
 data class KitsuUser(
     val id: String,
+    // Mihon -->
+    val attributes: KitsuUserAttributes,
+    // Mihon <--
 )
+
+// Mihon -->
+@Serializable
+data class KitsuUserAttributes(
+    val name: String,
+)
+// Mihon <--

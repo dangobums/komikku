@@ -126,14 +126,15 @@ class ShikimoriApi(
         }
     }
 
-    suspend fun getCurrentUser(): Int {
+    // Mihon -->
+    suspend fun getCurrentUser(): SMUser {
         return with(json) {
             authClient.newCall(GET("$API_URL/users/whoami"))
                 .awaitSuccess()
                 .parseAs<SMUser>()
-                .id
         }
     }
+    // Mihon <--
 
     suspend fun getMangaMetadata(track: DomainTrack): TrackMangaMetadata {
         return withIOContext {

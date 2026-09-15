@@ -185,16 +185,17 @@ class BangumiApi(
         }
     }
 
-    suspend fun getUsername(): String {
+    // Mihon -->
+    suspend fun getCurrentUser(): BGMUser {
         return withIOContext {
             with(json) {
                 authClient.newCall(GET("$API_URL/v0/me"))
                     .awaitSuccess()
                     .parseAs<BGMUser>()
-                    .username
             }
         }
     }
+    // Mihon <--
 
     companion object {
         private const val CLIENT_ID = "bgm31586666817a5d03b"

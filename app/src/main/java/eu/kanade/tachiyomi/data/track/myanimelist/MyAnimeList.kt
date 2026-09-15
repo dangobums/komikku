@@ -142,6 +142,9 @@ class MyAnimeList(id: Long) : BaseTracker(id, "MyAnimeList"), DeletableTracker {
             val oauth = api.getAccessToken(authCode)
             interceptor.setAuth(oauth)
             val username = api.getCurrentUser()
+            // Mihon -->
+            saveDisplayUsername(username)
+            // Mihon <--
             saveCredentials(username, oauth.accessToken)
         } catch (e: Throwable) {
             logout()

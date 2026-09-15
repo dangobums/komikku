@@ -113,8 +113,12 @@ class MangaUpdates(id: Long) : BaseTracker(id, "MangaUpdates"), DeletableTracker
 
     override suspend fun login(username: String, password: String) {
         val authenticated = api.authenticate(username, password)
-        saveCredentials(authenticated.uid.toString(), authenticated.sessionToken)
+        // Mihon -->
         interceptor.newAuth(authenticated.sessionToken)
+        val currentUser = api.getCurrentUser()
+        saveDisplayUsername(currentUser.username)
+        saveCredentials(authenticated.uid.toString(), authenticated.sessionToken)
+        // Mihon <--
     }
 
     override suspend fun getMangaMetadata(track: DomainTrack): TrackMangaMetadata {

@@ -5,6 +5,7 @@ import eu.kanade.tachiyomi.data.track.anilist.Anilist
 import eu.kanade.tachiyomi.data.track.bangumi.Bangumi
 import eu.kanade.tachiyomi.data.track.kitsu.Kitsu
 import eu.kanade.tachiyomi.data.track.komga.Komga
+import eu.kanade.tachiyomi.data.track.mangabaka.MangaBaka
 import eu.kanade.tachiyomi.data.track.mangaupdates.MangaUpdates
 import eu.kanade.tachiyomi.data.track.myanimelist.MyAnimeList
 import eu.kanade.tachiyomi.data.track.shikimori.Shikimori
@@ -107,6 +108,20 @@ enum class TrackStatus(val int: Int, val res: StringResource) {
                         else -> null
                     }
                 }
+                // dangobums -->
+                trackerManager.mangaBaka.id -> {
+                    when (status) {
+                        MangaBaka.READING -> READING
+                        MangaBaka.COMPLETED -> COMPLETED
+                        MangaBaka.PAUSED -> PAUSED
+                        MangaBaka.PLAN_TO_READ -> PLAN_TO_READ
+                        MangaBaka.CONSIDERING -> PLAN_TO_READ
+                        MangaBaka.DROPPED -> DROPPED
+                        MangaBaka.REREADING -> REPEATING
+                        else -> null
+                    }
+                }
+                // dangobums <--
                 else -> null
             }
         }

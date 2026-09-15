@@ -130,8 +130,11 @@ class Kitsu(id: Long) : BaseTracker(id, "Kitsu"), DeletableTracker {
     override suspend fun login(username: String, password: String) {
         val token = api.login(username, password)
         interceptor.newAuth(token)
-        val userId = api.getCurrentUser()
-        saveCredentials(username, userId)
+        // Mihon -->
+        val currentUser = api.getCurrentUser()
+        saveDisplayUsername(currentUser.attributes.name)
+        saveCredentials(username, currentUser.id)
+        // Mihon <--
     }
 
     override fun logout() {

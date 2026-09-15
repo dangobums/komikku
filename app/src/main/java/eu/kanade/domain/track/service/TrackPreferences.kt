@@ -3,6 +3,7 @@ package eu.kanade.domain.track.service
 import eu.kanade.domain.track.model.AutoTrackState
 import eu.kanade.tachiyomi.data.track.Tracker
 import eu.kanade.tachiyomi.data.track.anilist.Anilist
+import eu.kanade.tachiyomi.data.track.mangabaka.MangaBaka
 import tachiyomi.core.common.preference.Preference
 import tachiyomi.core.common.preference.PreferenceStore
 import tachiyomi.core.common.preference.getEnum
@@ -15,6 +16,13 @@ class TrackPreferences(
         Preference.privateKey("pref_mangasync_username_${tracker.id}"),
         "",
     )
+
+    // Mihon -->
+    fun trackDisplayUsername(tracker: Tracker) = preferenceStore.getString(
+        Preference.privateKey("pref_mangasync_displayname_${tracker.id}"),
+        "",
+    )
+    // Mihon <--
 
     fun trackPassword(tracker: Tracker) = preferenceStore.getString(
         Preference.privateKey("pref_mangasync_password_${tracker.id}"),
@@ -35,6 +43,10 @@ class TrackPreferences(
     fun trackToken(tracker: Tracker) = preferenceStore.getString(Preference.privateKey("track_token_${tracker.id}"), "")
 
     fun anilistScoreType() = preferenceStore.getString("anilist_score_type", Anilist.POINT_10)
+
+    // Mihon -->
+    fun mangabakaScoreType() = preferenceStore.getString("mangabaka_score_type", MangaBaka.STEP_1)
+    // Mihon <--
 
     fun autoUpdateTrack() = preferenceStore.getBoolean("pref_auto_update_manga_sync_key", true)
 

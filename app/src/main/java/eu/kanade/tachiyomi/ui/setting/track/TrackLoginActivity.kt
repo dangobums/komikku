@@ -3,6 +3,8 @@ package eu.kanade.tachiyomi.ui.setting.track
 import android.net.Uri
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import logcat.LogPriority
+import tachiyomi.core.common.util.system.logcat
 
 class TrackLoginActivity : BaseOAuthLoginActivity() {
 
@@ -25,6 +27,9 @@ class TrackLoginActivity : BaseOAuthLoginActivity() {
                 when (uri.host) {
                     "anilist-auth" -> handleAniList(data["access_token"])
                     "bangumi-auth" -> handleBangumi(data["code"])
+                    // Mihon -->
+                    "mangabaka-auth" -> handleMangaBaka(data["code"], data["state"])
+                    // Mihon <--
                     "myanimelist-auth" -> handleMyAnimeList(data["code"])
                     "shikimori-auth" -> handleShikimori(data["code"])
                 }
@@ -49,6 +54,24 @@ class TrackLoginActivity : BaseOAuthLoginActivity() {
             trackerManager.bangumi.logout()
         }
     }
+
+    // Mihon -->
+    private suspend fun handleMangaBaka(code: String?, state: String?) {
+        if (state == null) {
+            logcat(LogPriority.WARN) { "Did not receive state parameter from MangaBaka OAuth" }
+            return
+        }
+        if (code != null) {
+            if (!trackerManager.mangaBaka.verifyOAuthState(state)) {
+                logcat(LogPriority.WARN) { "Received wrong OAuth state back from MangaBaka" }
+                return
+            }
+            trackerManager.mangaBaka.login(code)
+        } else {
+            trackerManager.mangaBaka.logout()
+        }
+    }
+    // Mihon <--
 
     private suspend fun handleMyAnimeList(code: String?) {
         if (code != null) {

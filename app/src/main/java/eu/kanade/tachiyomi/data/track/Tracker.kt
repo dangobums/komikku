@@ -67,6 +67,12 @@ interface Tracker {
 
     fun getPassword(): String
 
+    // Mihon -->
+    fun getDisplayUsername(): String
+
+    fun saveDisplayUsername(displayName: String)
+    // Mihon <--
+
     fun saveCredentials(username: String, password: String)
 
     // TODO: move this to an interactor, and update all trackers based on common data

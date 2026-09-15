@@ -130,7 +130,10 @@ class Shikimori(id: Long) : BaseTracker(id, "Shikimori"), DeletableTracker {
             val oauth = api.accessToken(code)
             interceptor.newAuth(oauth)
             val user = api.getCurrentUser()
-            saveCredentials(user.toString(), oauth.accessToken)
+            // Mihon -->
+            saveDisplayUsername(user.nickname)
+            saveCredentials(user.id.toString(), oauth.accessToken)
+            // Mihon <--
         } catch (e: Throwable) {
             logout()
         }

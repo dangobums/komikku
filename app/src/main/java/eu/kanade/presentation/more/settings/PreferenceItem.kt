@@ -171,7 +171,9 @@ internal fun PreferenceItem(
                 }
                 TrackingPreferenceWidget(
                     tracker = item.tracker,
-                    checked = isLoggedIn,
+                    // Mihon -->
+                    isLoggedIn = isLoggedIn,
+                    // Mihon <--
                     onClick = { if (isLoggedIn) item.logout() else item.login() },
                 )
             }

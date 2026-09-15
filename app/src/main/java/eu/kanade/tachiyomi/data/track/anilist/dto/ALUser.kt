@@ -17,6 +17,9 @@ data class ALUserViewer(
 @Serializable
 data class ALUserViewerData(
     val id: Int,
+    // Mihon -->
+    val name: String,
+    // Mihon <--
     val mediaListOptions: ALUserListOptions,
 )
 

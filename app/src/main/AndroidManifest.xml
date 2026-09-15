@@ -203,6 +203,9 @@
 
                 <data android:host="anilist-auth" />
                 <data android:host="bangumi-auth" />
+                <!-- Mihon -> -->
+                <data android:host="mangabaka-auth" />
+                <!-- Mihon <- -->
                 <data android:host="myanimelist-auth" />
                 <data android:host="shikimori-auth" />
             </intent-filter>
