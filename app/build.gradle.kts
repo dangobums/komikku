@@ -218,7 +218,8 @@ dependencies {
     implementation(androidx.paging.runtime)
     implementation(androidx.paging.compose)
 
-    implementation(libs.bundles.sqlite)
+    implementation(androidx.sqlite.bundled)
+
     // SY -->
     implementation(sylibs.sqlcipher)
     // SY <--
@@ -279,7 +280,7 @@ dependencies {
 
     // UI libraries
     implementation(libs.material)
-    implementation(libs.flexible.adapter.core)
+    implementation(libs.flexibleAdapter)
     implementation(libs.photoview)
     implementation(libs.directionalviewpager) {
         exclude(group = "androidx.viewpager", module = "viewpager")
