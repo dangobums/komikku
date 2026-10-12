@@ -28,8 +28,8 @@ android {
     defaultConfig {
         applicationId = "app.dangobums.komikku"
 
-        versionCode = 83
-        versionName = "1.14.1.2"
+        versionCode = 84
+        versionName = "1.14.1.3"
 
         buildConfigField("String", "COMMIT_COUNT", "\"${getCommitCount()}\"")
         buildConfigField("String", "COMMIT_SHA", "\"${getGitSha()}\"")
